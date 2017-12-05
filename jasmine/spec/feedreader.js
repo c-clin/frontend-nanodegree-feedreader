@@ -30,20 +30,18 @@ $(function() {
          * and that the URL is not empty.
          */
          it('url is not empty', function() {
-            for(var i = 0; i < allFeeds.length; i++) {
-                expect(allFeeds[i].url).toBeDefined();
-                expect(allFeeds[i].url.length).toBeGreaterThan(0)
-            }
+            allFeeds.forEach(function(feed){
+                expect(feed.url).toBeTruthy();
+            });
          });
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
          it('name is not empty', function() {
-            for(var j = 0; j < allFeeds.length; j++) {
-                expect(allFeeds[j].name).toBeDefined();
-                expect(allFeeds[j].name.length).toBeGreaterThan(0)
-            }
+            allFeeds.forEach(function(feed){
+                expect(feed.name).toBeTruthy();
+            });
          });
     });
 
@@ -80,7 +78,7 @@ $(function() {
          */
          beforeEach(function(done) {
             loadFeed(0, function () {
-                $(".feed").find(".entry")
+                $('.feed .entry').length
                 loadFeed(1, function () {
                     done();
                 });
@@ -88,8 +86,7 @@ $(function() {
          });
 
          it('there is at least one entry', function(done) {
-            expect($('.feed')).toBeDefined();
-            expect($('.entry')).toBeDefined();
+            expect($('.feed .entry').length).toBeGreaterThan(0);
             done();
          });
     });
@@ -104,15 +101,18 @@ $(function() {
          beforeEach(function(done) {
             loadFeed(1, function () {
                 oldFeed = $(".feed").html;
+                console.log(oldFeed);
                 done();
             });
          });
 
          it('is loaded and the content changes', function (done) {
             loadFeed(2, function() {
+                expect(oldFeed).not.toEqual($('.feed').html());
+                console.log($('.feed').html());
                 done();
             });
-            expect(oldFeed).not.toEqual($('.feed'));
+            
          });
     });
 });
